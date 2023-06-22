@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PomoFocus</title>
+  <style>
+    /* CSS styling for the timer */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    h1 {
+      font-size: 48px;
+    }
+
+    #timer {
+      font-size: 72px;
+      margin-top: 40px;
+    }
+
+    #controls {
+      margin-top: 40px;
+    }
+
+    button {
+      font-size: 24px;
+      padding: 10px 20px;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>PomoFocus</h1>
+  <div id="timer">25:00</div>
+  <div id="controls">
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <script>
+    // JavaScript code for the timer functionality
+    var timerDisplay = document.getElementById('timer');
+    var startButton = document.getElementById('start');
+    var pauseButton = document.getElementById('pause');
+    var resetButton = document.getElementById('reset');
+    var timerInterval;
+    var minutes = 25;
+    var seconds = 0;
+
+    function updateTimer() {
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(timerInterval);
+          alert("Time's up!");
+        } else {
+          minutes--;
+          seconds = 59;
+        }
+      } else {
+        seconds--;
+      }
+
+      var formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+      var formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+      timerDisplay.textContent = formattedMinutes + ":" + formattedSeconds;
+    }
+
+    startButton.addEventListener('click', function() {
+      timerInterval = setInterval(updateTimer, 1000);
+      startButton.disabled = true;
+      pauseButton.disabled = false;
+      resetButton.disabled = false;
+    });
+
+    pauseButton.addEventListener('click', function() {
+      clearInterval(timerInterval);
+      startButton.disabled = false;
+      pauseButton.disabled = true;
+      resetButton.disabled = false;
+    });
+
+    resetButton.addEventListener('click', function() {
+      clearInterval(timerInterval);
+      minutes = 25;
+      seconds = 0;
+      timerDisplay.textContent = "25:00";
+      startButton.disabled = false;
+      pauseButton.disabled = true;
+      resetButton.disabled = true;
+    });
+  </script>
+</body>
+</html>
